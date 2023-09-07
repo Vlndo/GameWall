@@ -28,6 +28,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+    private ?string $plainPassword = null;
 
     #[ORM\Column(length: 191, nullable: true)]
     private ?string $name = null;
@@ -87,6 +88,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
+        if ($this->isIsadmin()) {
+            $roles[] = 'ROLE_ADMIN';
+        }
 
         return array_unique($roles);
     }
@@ -210,5 +214,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->country = $country;
 
         return $this;
+    }
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }
