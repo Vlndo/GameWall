@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230906095627 extends AbstractMigration
+final class Version20230907124028 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -27,7 +27,7 @@ final class Version20230906095627 extends AbstractMigration
         $this->addSql('CREATE TABLE paiment (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(191) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE platform (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(191) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE platform_product (platform_id INT NOT NULL, product_id INT NOT NULL, INDEX IDX_C67ACEFFFFE6496F (platform_id), INDEX IDX_C67ACEFF4584665A (product_id), PRIMARY KEY(platform_id, product_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE product (id INT AUTO_INCREMENT NOT NULL, bill_id INT DEFAULT NULL, title VARCHAR(191) NOT NULL, quantity INT NOT NULL, release_date DATETIME DEFAULT NULL, price INT DEFAULT NULL, description LONGTEXT NOT NULL, rate INT DEFAULT NULL, productcontent LONGTEXT DEFAULT NULL, requiredspecs LONGTEXT DEFAULT NULL, edition VARCHAR(191) DEFAULT NULL, INDEX IDX_D34A04AD1A8C12F5 (bill_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE product (id INT AUTO_INCREMENT NOT NULL, bill_id INT DEFAULT NULL, title VARCHAR(191) NOT NULL, quantity INT NOT NULL, release_date DATETIME DEFAULT NULL, price DOUBLE PRECISION DEFAULT NULL, description LONGTEXT NOT NULL, rate INT DEFAULT NULL, productcontent LONGTEXT DEFAULT NULL, requiredspecs LONGTEXT DEFAULT NULL, edition VARCHAR(191) DEFAULT NULL, INDEX IDX_D34A04AD1A8C12F5 (bill_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE `system` (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(191) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE system_platform (system_id INT NOT NULL, platform_id INT NOT NULL, INDEX IDX_50B86149D0952FA5 (system_id), INDEX IDX_50B86149FFE6496F (platform_id), PRIMARY KEY(system_id, platform_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE tag (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(191) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
