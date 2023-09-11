@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\System;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 
 class SystemCrudController extends AbstractCrudController
 {
@@ -12,14 +14,13 @@ class SystemCrudController extends AbstractCrudController
         return System::class;
     }
 
-    /*
-    public function configureFields(string $pageName): iterable
-    {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
-    }
-    */
+
+//    public function configureFields(string $pageName): iterable
+//    {
+//        return [
+//            AssociationField::new('systems')->onlyOnForms()
+//                ->setFormTypeOptions(['by_reference' => false]),
+//        ];
+//    }
+
 }

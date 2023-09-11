@@ -117,4 +117,8 @@ class Bill
 
         return $this;
     }
+    public function __toString(): string
+    {
+        return $this->getUser();
+    }
 }
