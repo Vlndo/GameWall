@@ -3,8 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Product;
+
+use App\Entity\System;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
@@ -14,6 +18,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class ProductCrudController extends AbstractCrudController
 {
+
+
+
     public static function getEntityFqcn(): string
     {
         return Product::class;
@@ -22,6 +29,7 @@ class ProductCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('title'),
@@ -35,8 +43,9 @@ class ProductCrudController extends AbstractCrudController
             TextField::new('edition'),
             AssociationField::new('platforms')->onlyOnForms()
                 ->setFormTypeOptions(['by_reference' => false]),
+            AssociationField::new('bill')->onlyOnForms()
+                ->setFormTypeOptions(['by_reference' => false])
         ];
     }
 
 }
-?>

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Bill;
 use App\Entity\Country;
 use App\Entity\Images;
 use App\Entity\Paiment;
@@ -21,22 +22,6 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-//        return parent::index();
-
-        // Option 1. You can make your dashboard redirect to some common page of your backend
-        //
-        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        // return $this->redirect($adminUrlGenerator->setController(OneOfYourCrudController::class)->generateUrl());
-
-        // Option 2. You can make your dashboard redirect to different pages depending on the user
-        //
-        // if ('jane' === $this->getUser()->getUsername()) {
-        //     return $this->redirect('...');
-        // }
-
-        // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        //
          return $this->render('admin/dashboard.html.twig');
     }
 
@@ -57,6 +42,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Paiment', 'fa fa-money-bill',Paiment::class);
         yield MenuItem::linkToCrud('Image', 'fa fa-image',Images::class);
         yield MenuItem::linkToCrud('country', 'fa fa-earth-europe',Country::class);
+        yield MenuItem::linkToCrud('bill', 'fa fa-earth-europe',Bill::class);
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 }
