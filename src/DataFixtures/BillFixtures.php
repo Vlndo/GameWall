@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Bill;
 use App\Repository\PaimentRepository;
 use App\Repository\UserRepository;
+use App\Repository\KeyRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -17,13 +18,16 @@ class BillFixtures extends Fixture implements DependentFixtureInterface
 {
     protected $paimentRepository;
     protected $userRepository;
+    protected $keyRepository;
 
     public function __construct(
         PaimentRepository $paimentRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        KeyRepository $keyRepository
     ) {
         $this->paimentRepository = $paimentRepository;
         $this->userRepository = $userRepository;
+        $this->keyRepository = $keyRepository;
     }
 
     // // Ici, on va se servir des tags qu'on a déjà inséré en base (pas obligatoire ;) )
@@ -40,6 +44,7 @@ class BillFixtures extends Fixture implements DependentFixtureInterface
 
         $paiments = $this->paimentRepository->findAll();
         $users = $this->userRepository->findAll();
+        $keys = $this->keyRepository->findAll();
 
         $numbers = [
             255588716,
@@ -52,13 +57,16 @@ class BillFixtures extends Fixture implements DependentFixtureInterface
             // Je crée des objets tags et les remplie
             // avant d'en demander l'enregistrement à l'ObjectManager
             $bill = new Bill();
-            $bill->setNumber($number);
+            $bill->setBillNumber($number);
 
             $randomNumberOfPaiment = mt_rand(0, count($paiments) - 1);
             $bill->setPaiment($paiments[$randomNumberOfPaiment]);
 
             $randomNumberOfUser = mt_rand(0, count($users) - 1);
             $bill->setUser($users[$randomNumberOfUser]);
+
+            $randomNumberOfKey = mt_rand(0, count($keys) - 1);
+            $bill->addKeey($keys[$randomNumberOfKey]);
 
             $manager->persist($bill);
         }
@@ -71,6 +79,7 @@ class BillFixtures extends Fixture implements DependentFixtureInterface
         return [
             PaimentFixtures::class,
             UserFixtures::class,
+            KeyFixtures::class,
         ];
     }
 }

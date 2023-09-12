@@ -2,30 +2,28 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Bill;
+use App\Entity\Key;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class BillCrudController extends AbstractCrudController
+class KeyCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Bill::class;
+        return Key::class;
     }
-
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->hideOnForm(),
-            IntegerField::new('billNumber'),
-            AssociationField::new('user')
+            TextField::new('keyNumber'),
+            AssociationField::new('keyProduct')
                 ->setFormTypeOptions(['by_reference' => true]),
-            AssociationField::new('keeys')->hideOnForm(),
+            AssociationField::new('billKey')
+                ->setFormTypeOptions(['by_reference' => true]),
         ];
     }
-
 }

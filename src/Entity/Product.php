@@ -52,12 +52,16 @@ class Product
     #[ORM\ManyToMany(targetEntity: Platform::class, mappedBy: 'productplatform')]
     private Collection $platforms;
 
+    #[ORM\OneToMany(mappedBy: 'keyProduct', targetEntity: Key::class)]
+    private Collection $keeys;
+
 
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->platforms = new ArrayCollection();
+        $this->keeys = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -254,4 +258,38 @@ class Product
         return $this;
     }
 
+    /**
+     * @return Collection<int, Key>
+     */
+    public function getKeeys(): Collection
+    {
+        return $this->keeys;
+    }
+
+    public function addKeey(Key $keey): static
+    {
+        if (!$this->keeys->contains($keey)) {
+            $this->keeys->add($keey);
+            $keey->setKeyProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeKeey(Key $keey): static
+    {
+        if ($this->keeys->removeElement($keey)) {
+            // set the owning side to null (unless already changed)
+            if ($keey->getKeyProduct() === $this) {
+                $keey->setKeyProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getTitle();
+    }
 }
