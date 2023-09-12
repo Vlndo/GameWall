@@ -7,6 +7,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Metadata\Get;
@@ -23,7 +24,10 @@ use ApiPlatform\Metadata\Patch;
         new Patch(),
     ]
 )]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements
+    UserInterface,
+    PasswordAuthenticatedUserInterface,
+    JWTUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -69,6 +73,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(?int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getEmail(): ?string
@@ -243,5 +254,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString(): string
     {
         return $this->getEmail();
+    }
+
+    public static function createFromPayload($username, array $payload): self
+    {
+        return (new self())
+            ->setId($username)
+            ->setRoles($payload['roles'])
+            ->setEmail($payload['email'])
+        ;
     }
 }
