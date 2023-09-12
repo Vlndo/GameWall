@@ -52,8 +52,6 @@ class Product
     #[ORM\ManyToMany(targetEntity: Platform::class, mappedBy: 'productplatform')]
     private Collection $platforms;
 
-    #[ORM\ManyToOne(inversedBy: 'productbill')]
-    private ?Bill $bill = null;
 
     public function __construct()
     {
@@ -256,15 +254,4 @@ class Product
         return $this;
     }
 
-    public function getBill(): ?Bill
-    {
-        return $this->bill;
-    }
-
-    public function setBill(?Bill $bill): static
-    {
-        $this->bill = $bill;
-
-        return $this;
-    }
 }

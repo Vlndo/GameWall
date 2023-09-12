@@ -18,11 +18,6 @@ class Bill
     #[ORM\Column]
     private ?int $number = null;
 
-    #[ORM\Column]
-    private ?int $amount = null;
-
-    #[ORM\OneToMany(mappedBy: 'bill', targetEntity: Product::class)]
-    private Collection $productbill;
 
     #[ORM\ManyToOne(inversedBy: 'billpaiment')]
     private ?Paiment $paiment = null;
@@ -48,48 +43,6 @@ class Bill
     public function setNumber(int $number): static
     {
         $this->number = $number;
-
-        return $this;
-    }
-
-    public function getAmount(): ?int
-    {
-        return $this->amount;
-    }
-
-    public function setAmount(int $amount): static
-    {
-        $this->amount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProductbill(): Collection
-    {
-        return $this->productbill;
-    }
-
-    public function addProductbill(Product $productbill): static
-    {
-        if (!$this->productbill->contains($productbill)) {
-            $this->productbill->add($productbill);
-            $productbill->setBill($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProductbill(Product $productbill): static
-    {
-        if ($this->productbill->removeElement($productbill)) {
-            // set the owning side to null (unless already changed)
-            if ($productbill->getBill() === $this) {
-                $productbill->setBill(null);
-            }
-        }
 
         return $this;
     }
