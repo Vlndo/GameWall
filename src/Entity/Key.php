@@ -2,10 +2,17 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\KeyRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\Get;
 
 #[ORM\Entity(repositoryClass: KeyRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(),
+    ]
+)]
 #[ORM\Table(name: '`key`')]
 class Key
 {
