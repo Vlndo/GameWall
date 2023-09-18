@@ -43,8 +43,8 @@ class ProductCrudController extends AbstractCrudController
             TextField::new('edition'),
             AssociationField::new('platforms')->onlyOnForms()
                 ->setFormTypeOptions(['by_reference' => false]),
-            AssociationField::new('bill')->onlyOnForms()
-                ->setFormTypeOptions(['by_reference' => false])
+            // AssociationField::new('bill')->onlyOnForms()  // on a pas besoin de l'ajouter au produit , lien fait sur la key ?
+            //     ->setFormTypeOptions(['by_reference' => false])
         ];
     }
 
