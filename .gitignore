@@ -27,3 +27,9 @@
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
+
+###> images ###
+public/media/img/products/*
+!public/media/img/products/bg3.jpg
+!public/media/img/products/mw3.jpg
+###< images ###
