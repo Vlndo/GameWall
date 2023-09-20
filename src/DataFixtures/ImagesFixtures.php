@@ -26,8 +26,8 @@ class ImagesFixtures extends Fixture
         // Les titres et contenus des images va être identiques, on les prépare avant la boucle
 
         $links = [
-            "public/media/img/products/mw3.jpg",
-            "public/media/img/products/bg3.jpg",
+            "mw3.jpg",
+            "bg3.jpg",
         ];
 
         foreach ($links as $link) {
