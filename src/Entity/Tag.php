@@ -9,12 +9,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 #[ApiResource(
     operations: [
         new Get(),
-        new GetCollection()
+        new GetCollection(),
     ]
 )]
 class Tag
@@ -22,9 +23,11 @@ class Tag
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read', 'read:Product'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 191)]
+    #[Groups(['read', 'read:Product'])]
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'tags')]
@@ -74,5 +77,9 @@ class Tag
         $this->producttag->removeElement($producttag);
 
         return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }

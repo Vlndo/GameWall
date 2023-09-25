@@ -10,58 +10,79 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
     operations: [
         new Get(),
-        new GetCollection()
-    ]
+        new GetCollection(normalizationContext: ['groups' => ['read:collection', 'read:Product']]),
+    ],
+    // operations: [
+    //     new Get(),
+    //     new GetCollection()
+    // ]
 )]
 class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["read", "read:collection"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 191)]
+    #[Groups(["read", "read:collection"])]
     private ?string $title = null;
 
     #[ORM\Column]
+    #[Groups(["read", "read:collection"])]
     private ?int $quantity = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Groups(["read", "read:collection"])]
     private ?\DateTimeInterface $releaseDate = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(["read", "read:collection"])]
     private ?float $price = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(["read", "read:collection"])]
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(["read", "read:collection"])]
     private ?int $rate = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(["read", "read:collection"])]
     private ?string $productcontent = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(["read", "read:collection"])]
     private ?string $requiredspecs = null;
 
     #[ORM\Column(length: 191, nullable: true)]
+    #[Groups(["read", "read:collection"])]
     private ?string $edition = null;
 
     #[ORM\ManyToMany(targetEntity: Images::class, mappedBy: 'productimages')]
+    #[Groups(["read", "read:collection"])]
     private Collection $images;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'producttag')]
+    #[Groups(["read", "read:collection"])]
     private Collection $tags;
 
     #[ORM\ManyToMany(targetEntity: Platform::class, mappedBy: 'productplatform')]
+    #[Groups(["read", "read:collection"])]
     private Collection $platforms;
 
     #[ORM\OneToMany(mappedBy: 'keyProduct', targetEntity: Key::class)]
+    #[Groups(["read", "read:collection"])]
     private Collection $keeys;
 
 

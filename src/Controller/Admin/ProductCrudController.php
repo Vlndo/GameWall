@@ -36,14 +36,15 @@ class ProductCrudController extends AbstractCrudController
             IntegerField::new('quantity'),
             DateTimeField::new('release_date'),
             NumberField::new('price'),
-            TextEditorField::new('description'),
+            TextField::new('description'),
             IntegerField::new('rate'),
-            TextEditorField::new('productcontent'),
-            TextEditorField::new('requiredspecs'),
+            TextField::new('productcontent'),
+            TextField::new('requiredspecs'),
             TextField::new('edition'),
             AssociationField::new('platforms')->onlyOnForms()
                 ->setFormTypeOptions(['by_reference' => false]),
             AssociationField::new('images')->onlyOnForms()->setFormTypeOptions(['by_reference' => false]),
+            AssociationField::new('tags')->setFormTypeOptions(['by_reference' => false]),
 
         ];
     }
