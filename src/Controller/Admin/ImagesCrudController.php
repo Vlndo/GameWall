@@ -21,8 +21,8 @@ class ImagesCrudController extends AbstractCrudController
     {
         return [
 
-            TextField::new('imageFile')->setFormType(VichImageType::class)->onlyWhenCreating(),
-            ImageField::new('link')->setBasePath('public/media/img/products')->onlyOnIndex(),
+            TextField::new('imageFile')->setFormType(VichImageType::class),
+            ImageField::new('link')->setBasePath('media/img/products')->onlyOnIndex(),
 
 
 
