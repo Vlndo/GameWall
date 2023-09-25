@@ -9,12 +9,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PlatformRepository::class)]
 #[ApiResource(
     operations: [
         new Get(),
-        new GetCollection()
+        new GetCollection(),
     ]
 )]
 class Platform
@@ -22,9 +23,11 @@ class Platform
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read', 'read:Product'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 191)]
+    #[Groups(['read', 'read:Product'])]
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'platforms')]

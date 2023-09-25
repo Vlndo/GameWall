@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+
 use AllowDynamicProperties;
 use Symfony\Component\HttpFoundation\File\File;
 use ApiPlatform\Metadata\ApiResource;
@@ -11,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[AllowDynamicProperties] #[ORM\Entity(repositoryClass: ImagesRepository::class)]
@@ -18,19 +20,23 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ApiResource(
     operations: [
         new Get(),
-        new GetCollection(),
+        new GetCollection()
     ]
+
 )]
 class Images
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read', 'read:Product'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 191, nullable: true)]
+    #[Groups(['read', 'read:Product'])]
     private ?string $link = null;
     #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'link')]
+    #[Groups(['read', 'read:Product'])]
     private ?File $imageFile = null;
 
 
@@ -94,7 +100,7 @@ class Images
     }
 
 
-    public function setImageFile(?File $imageFile = null):void
+    public function setImageFile(?File $imageFile = null): void
     {
         $this->imageFile = $imageFile;
         if (null !== $imageFile) {
