@@ -14,15 +14,19 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Patch;
+use Symfony\Component\Serializer\Annotation\Groups;
+use App\State\UserPasswordHasher;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['create', 'create:post', 'create:user']],
     operations: [
         new Get(),
-        new Post(),
+        new Post(processor: UserPasswordHasher::class, validationContext: ['groups' => ['Default', 'create:user']]),
         new Delete(),
-        new Patch(),
-    ]
+        new Patch(processor: UserPasswordHasher::class),
+    ],
 )]
 class User implements
     UserInterface,
@@ -32,9 +36,11 @@ class User implements
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Groups(['create', 'create:post', 'read'])]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -45,28 +51,36 @@ class User implements
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[Groups(['create', 'create:post', 'create:user'])]
     private ?string $plainPassword = null;
 
     #[ORM\Column(length: 191, nullable: true)]
+    #[Groups(['create', 'create:post', 'read'])]
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['create', 'create:post', 'read'])]
     private ?int $age = null;
 
     #[ORM\Column]
+    #[Groups(['create', 'create:post'])]
     private ?bool $isadmin = null;
 
     #[ORM\Column(length: 191)]
+    #[Groups(['create', 'create:post'])]
     private ?string $image = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Bill::class)]
-    private Collection $billuser;
+    #[ORM\OneToMany(mappedBy: 'billuser', targetEntity: Bill::class)]
+    private ?Collection $bills = null;
 
-    #[ORM\ManyToOne(inversedBy: 'usercountry')]
+    #[ORM\ManyToOne(inversedBy: 'countryUser')]
+    #[Groups(['create', 'create:post',])]
     private ?Country $country = null;
 
     public function __construct()
     {
+        $this->bills = new ArrayCollection();
         $this->billuser = new ArrayCollection();
     }
 
@@ -181,6 +195,9 @@ class User implements
 
     public function setIsadmin(bool $isadmin): static
     {
+        if (!$isadmin) {
+            $isadmin === false;
+        }
         $this->isadmin = $isadmin;
 
         return $this;
@@ -194,48 +211,6 @@ class User implements
     public function setImage(string $image): static
     {
         $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Bill>
-     */
-    public function getBilluser(): Collection
-    {
-        return $this->billuser;
-    }
-
-    public function addBilluser(Bill $billuser): static
-    {
-        if (!$this->billuser->contains($billuser)) {
-            $this->billuser->add($billuser);
-            $billuser->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBilluser(Bill $billuser): static
-    {
-        if ($this->billuser->removeElement($billuser)) {
-            // set the owning side to null (unless already changed)
-            if ($billuser->getUser() === $this) {
-                $billuser->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getCountry(): ?Country
-    {
-        return $this->country;
-    }
-
-    public function setCountry(?Country $country): static
-    {
-        $this->country = $country;
 
         return $this;
     }
@@ -263,5 +238,47 @@ class User implements
             ->setRoles($payload['roles'])
             ->setEmail($payload['email'])
         ;
+    }
+
+    /**
+     * @return ?Collection<int, Bill>
+     */
+    public function getBills(): ?Collection
+    {
+        return $this->bills;
+    }
+
+    public function addBill(?Bill $bill): static
+    {
+        if (!$this->bills->contains($bill)) {
+            $this->bills->add($bill);
+            $bill->setBilluser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBill(?Bill $bill): static
+    {
+        if ($this->bills->removeElement($bill)) {
+            // set the owning side to null (unless already changed)
+            if ($bill->getBilluser() === $this) {
+                $bill->setBilluser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): static
+    {
+        $this->country = $country;
+
+        return $this;
     }
 }

@@ -14,11 +14,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['read']],
+    normalizationContext: ['groups' => ['lire']],
     denormalizationContext: ['groups' => ['write']],
     operations: [
         new Get(),
-        new GetCollection(normalizationContext: ['groups' => ['read:collection', 'read:Product']]),
+        new GetCollection(normalizationContext: ['groups' => ['lire:collection', 'lire:Product']]),
     ],
     // operations: [
     //     new Get(),
@@ -30,59 +30,59 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["read", "read:collection"])]
+    #[Groups(["lire", "lire:collection"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 191)]
-    #[Groups(["read", "read:collection"])]
+    #[Groups(["lire", "lire:collection"])]
     private ?string $title = null;
 
     #[ORM\Column]
-    #[Groups(["read", "read:collection"])]
+    #[Groups(["lire", "lire:collection"])]
     private ?int $quantity = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Groups(["read", "read:collection"])]
+    #[Groups(["lire", "lire:collection"])]
     private ?\DateTimeInterface $releaseDate = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(["read", "read:collection"])]
+    #[Groups(["lire", "lire:collection"])]
     private ?float $price = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(["read", "read:collection"])]
+    #[Groups(["lire", "lire:collection"])]
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(["read", "read:collection"])]
+    #[Groups(["lire", "lire:collection"])]
     private ?int $rate = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(["read", "read:collection"])]
+    #[Groups(["lire", "lire:collection"])]
     private ?string $productcontent = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(["read", "read:collection"])]
+    #[Groups(["lire", "lire:collection"])]
     private ?string $requiredspecs = null;
 
     #[ORM\Column(length: 191, nullable: true)]
-    #[Groups(["read", "read:collection"])]
+    #[Groups(["lire", "lire:collection"])]
     private ?string $edition = null;
 
     #[ORM\ManyToMany(targetEntity: Images::class, mappedBy: 'productimages')]
-    #[Groups(["read", "read:collection"])]
+    #[Groups(["lire", "lire:collection"])]
     private Collection $images;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'producttag')]
-    #[Groups(["read", "read:collection"])]
+    #[Groups(["lire", "lire:collection"])]
     private Collection $tags;
 
     #[ORM\ManyToMany(targetEntity: Platform::class, mappedBy: 'productplatform')]
-    #[Groups(["read", "read:collection"])]
+    #[Groups(["lire", "lire:collection"])]
     private Collection $platforms;
 
     #[ORM\OneToMany(mappedBy: 'keyProduct', targetEntity: Key::class)]
-    #[Groups(["read", "read:collection"])]
+    #[Groups(["lire", "lire:collection"])]
     private Collection $keeys;
 
 
@@ -309,7 +309,7 @@ class Product
     public function removeKeey(Key $keey): static
     {
         if ($this->keeys->removeElement($keey)) {
-            // set the owning side to null (unless already changed)
+            // set the owning side to null (unless allirey changed)
             if ($keey->getKeyProduct() === $this) {
                 $keey->setKeyProduct(null);
             }

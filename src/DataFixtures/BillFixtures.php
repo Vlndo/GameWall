@@ -63,7 +63,7 @@ class BillFixtures extends Fixture implements DependentFixtureInterface
             $bill->setPaiment($paiments[$randomNumberOfPaiment]);
 
             $randomNumberOfUser = mt_rand(0, count($users) - 1);
-            $bill->setUser($users[$randomNumberOfUser]);
+            $bill->setBilluser($users[$randomNumberOfUser]);
 
             $randomNumberOfKey = mt_rand(0, count($keys) - 1);
             $bill->addKeey($keys[$randomNumberOfKey]);

@@ -23,11 +23,11 @@ class Platform
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['read', 'read:Product'])]
+    #[Groups(['lire', 'lire:Product'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 191)]
-    #[Groups(['read', 'read:Product'])]
+    #[Groups(['lire', 'lire:Product'])]
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'platforms')]

@@ -21,7 +21,7 @@ class BillCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('billNumber'),
-            AssociationField::new('user')
+            AssociationField::new('billuser')
                 ->setFormTypeOptions(['by_reference' => true]),
             AssociationField::new('keeys')->hideOnForm(),
         ];
