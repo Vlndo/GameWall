@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CountryRepository::class)]
 #[ApiResource(
@@ -25,14 +26,16 @@ class Country
     private ?int $id = null;
 
     #[ORM\Column(length: 191)]
+    #[Groups(['read', 'create', 'create:post'])]
     private ?string $name = null;
 
     #[ORM\OneToMany(mappedBy: 'country', targetEntity: User::class)]
-    private Collection $usercountry;
+    private Collection $countryUser;
+
 
     public function __construct()
     {
-        $this->usercountry = new ArrayCollection();
+        $this->countryUser = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -52,38 +55,38 @@ class Country
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsercountry(): Collection
+    public function __toString(): string
     {
-        return $this->usercountry;
+        return $this->getName();
     }
 
-    public function addUsercountry(User $usercountry): static
+    /**
+     * @return <int, User>
+     */
+    public function getCountryUser()
     {
-        if (!$this->usercountry->contains($usercountry)) {
-            $this->usercountry->add($usercountry);
-            $usercountry->setCountry($this);
+        return $this->countryUser->getValues();
+    }
+
+    public function addCountryUser(User $countryUser): static
+    {
+        if (!$this->countryUser->contains($countryUser)) {
+            $this->countryUser->add($countryUser);
+            $countryUser->setCountry($this);
         }
 
         return $this;
     }
 
-    public function removeUsercountry(User $usercountry): static
+    public function removeCountryUser(User $countryUser): static
     {
-        if ($this->usercountry->removeElement($usercountry)) {
+        if ($this->countryUser->removeElement($countryUser)) {
             // set the owning side to null (unless already changed)
-            if ($usercountry->getCountry() === $this) {
-                $usercountry->setCountry(null);
+            if ($countryUser->getCountry() === $this) {
+                $countryUser->setCountry(null);
             }
         }
 
         return $this;
-    }
-
-    public function __toString(): string
-    {
-        return $this->getName();
     }
 }

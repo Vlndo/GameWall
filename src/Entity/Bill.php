@@ -8,9 +8,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\Get;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BillRepository::class)]
 #[ApiResource(
+    normalizationContext: ['groups' => ['read']],
     operations: [
         new Get(),
     ]
@@ -29,11 +31,12 @@ class Bill
     #[ORM\ManyToOne(inversedBy: 'billpaiment')]
     private ?Paiment $paiment = null;
 
-    #[ORM\ManyToOne(inversedBy: 'billuser')]
-    private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'billKey', targetEntity: Key::class)]
     private Collection $keeys;
+
+    #[ORM\ManyToOne(inversedBy: 'bills')]
+    private ?User $billuser = null;
 
     // #[ORM\OneToMany(mappedBy: 'bill', targetEntity: Key::class)]
     // private Collection $billKey;
@@ -70,18 +73,6 @@ class Bill
     public function setPaiment(?Paiment $paiment): static
     {
         $this->paiment = $paiment;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
 
         return $this;
     }
@@ -152,6 +143,18 @@ class Bill
     public function __toString(): string
     {
         return $this->getBillNumber();
+    }
+
+    public function getBilluser(): ?User
+    {
+        return $this->billuser;
+    }
+
+    public function setBilluser(?User $billuser): static
+    {
+        $this->billuser = $billuser;
+
+        return $this;
     }
 
 }
