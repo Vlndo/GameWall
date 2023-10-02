@@ -26,7 +26,6 @@ class Country
     private ?int $id = null;
 
     #[ORM\Column(length: 191)]
-    #[Groups(['read', 'create', 'create:post'])]
     private ?string $name = null;
 
     #[ORM\OneToMany(mappedBy: 'country', targetEntity: User::class)]
