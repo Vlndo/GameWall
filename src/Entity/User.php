@@ -22,7 +22,7 @@ use App\State\UserPasswordHasher;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['create', 'create:post', 'create:user']],
     operations: [
-        new Get(),
+        new Get(normalizationContext: ['groups' => ['read:collection', 'read:user']]),
         new Post(processor: UserPasswordHasher::class, validationContext: ['groups' => ['Default', 'create:user']]),
         new Delete(),
         new Patch(processor: UserPasswordHasher::class),
@@ -36,11 +36,11 @@ class User implements
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['read'])]
+    #[Groups(['read', 'read:user','read:bill'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['create', 'create:post', 'read'])]
+    #[Groups(['create', 'create:post', 'read', 'read:user','read:bill'])]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -50,28 +50,30 @@ class User implements
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Groups(['read', 'read:user'])]
     private ?string $password = null;
 
-    #[Groups(['create', 'create:post', 'create:user'])]
+    #[Groups(['create', 'create:post', 'create:user','read', 'read:user'])]
     private ?string $plainPassword = null;
 
     #[ORM\Column(length: 191, nullable: true)]
-    #[Groups(['create', 'create:post', 'read'])]
+    #[Groups(['create', 'create:post', 'read', 'read:user'])]
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['create', 'create:post', 'read'])]
+    #[Groups(['create', 'create:post','read', 'read:user'])]
     private ?int $age = null;
 
     #[ORM\Column]
-    #[Groups(['create', 'create:post'])]
+    #[Groups(['create', 'create:post','read', 'read:user'])]
     private ?bool $isadmin = null;
 
     #[ORM\Column(length: 191)]
-    #[Groups(['create', 'create:post'])]
+    #[Groups(['create', 'create:post','read', 'read:user'])]
     private ?string $image = null;
 
     #[ORM\OneToMany(mappedBy: 'billuser', targetEntity: Bill::class)]
+    #[Groups(['read', 'read:user'])]
     private ?Collection $bills = null;
 
     #[ORM\ManyToOne(inversedBy: 'countryUser')]
