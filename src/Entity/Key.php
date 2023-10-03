@@ -3,14 +3,17 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\KeyRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\Get;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: KeyRepository::class)]
 #[ApiResource(
     operations: [
         new Get(),
+        new GetCollection()
     ]
 )]
 #[ORM\Table(name: '`key`')]
@@ -19,13 +22,16 @@ class Key
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read','read:bill'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 191)]
+    #[Groups(['read','read:bill'])]
     private ?string $keyNumber = null;
 
     #[ORM\ManyToOne(inversedBy: 'keeys')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read','read:bill'])]
     private ?Product $keyProduct = null;
 
     #[ORM\ManyToOne(inversedBy: 'keeys')]

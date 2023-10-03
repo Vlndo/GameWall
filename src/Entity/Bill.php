@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     normalizationContext: ['groups' => ['read']],
     operations: [
-        new Get(),
+        new Get(normalizationContext: ['groups' => ['read:bill']]),
     ]
 )]
 class Bill
@@ -22,9 +22,11 @@ class Bill
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read', 'read:user'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['read', 'read:user','read:bill'])]
     private ?string $billNumber = null;
 
 
@@ -33,9 +35,11 @@ class Bill
 
 
     #[ORM\OneToMany(mappedBy: 'billKey', targetEntity: Key::class)]
+    #[Groups(['read','read:bill'])]
     private Collection $keeys;
 
     #[ORM\ManyToOne(inversedBy: 'bills')]
+    #[Groups(['read','read:bill'])]
     private ?User $billuser = null;
 
     // #[ORM\OneToMany(mappedBy: 'bill', targetEntity: Key::class)]

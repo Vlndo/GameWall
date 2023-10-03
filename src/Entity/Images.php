@@ -29,11 +29,11 @@ class Images
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['lire', 'lire:Product'])]
+    #[Groups(['lire', 'lire:Product','read:bill'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 191, nullable: true)]
-    #[Groups(['lire', 'lire:Product'])]
+    #[Groups(['lire', 'lire:Product','read:bill'])]
     private ?string $link = null;
     #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'link')]
     #[Groups(['lire', 'lire:Product'])]
