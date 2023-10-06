@@ -34,7 +34,7 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 191)]
-    #[Groups(["lire", "lire:collection",'read:bill'])]
+    #[Groups(["lire", "lire:collection",'read:bill','read:user'])]
     private ?string $title = null;
 
     #[ORM\Column]
@@ -46,7 +46,7 @@ class Product
     private ?\DateTimeInterface $releaseDate = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(["lire", "lire:collection",'read:bill'])]
+    #[Groups(["lire", "lire:collection",'read:bill','read:user'])]
     private ?float $price = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -66,11 +66,11 @@ class Product
     private ?string $requiredspecs = null;
 
     #[ORM\Column(length: 191, nullable: true)]
-    #[Groups(["lire", "lire:collection"])]
+    #[Groups(["lire", "lire:collection",'read:user'])]
     private ?string $edition = null;
 
     #[ORM\ManyToMany(targetEntity: Images::class, mappedBy: 'productimages')]
-    #[Groups(["lire", "lire:collection",'read:bill'])]
+    #[Groups(["lire", "lire:collection",'read:bill','read:user'])]
     private Collection $images;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'producttag')]
