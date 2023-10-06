@@ -35,7 +35,7 @@ class Bill
 
 
     #[ORM\OneToMany(mappedBy: 'billKey', targetEntity: Key::class)]
-    #[Groups(['read','read:bill'])]
+    #[Groups(['read','read:bill','read:user'])]
     private Collection $keeys;
 
     #[ORM\ManyToOne(inversedBy: 'bills')]

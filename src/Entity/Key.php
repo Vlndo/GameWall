@@ -31,7 +31,7 @@ class Key
 
     #[ORM\ManyToOne(inversedBy: 'keeys')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['read','read:bill'])]
+    #[Groups(['read','read:bill','read:user'])]
     private ?Product $keyProduct = null;
 
     #[ORM\ManyToOne(inversedBy: 'keeys')]

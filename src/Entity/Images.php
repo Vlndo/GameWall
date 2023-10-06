@@ -33,7 +33,7 @@ class Images
     private ?int $id = null;
 
     #[ORM\Column(length: 191, nullable: true)]
-    #[Groups(['lire', 'lire:Product','read:bill'])]
+    #[Groups(['lire', 'lire:Product','read:bill','read:user'])]
     private ?string $link = null;
     #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'link')]
     #[Groups(['lire', 'lire:Product'])]
